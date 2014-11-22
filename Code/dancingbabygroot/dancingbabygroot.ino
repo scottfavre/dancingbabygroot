@@ -1,3 +1,6 @@
+#include <Adafruit_MotorShield.h>
+#include <Wire.h>
+
 #include <SPI.h>
 #include <Adafruit_VS1053.h>
 #include <SD.h>
@@ -18,8 +21,14 @@ Adafruit_VS1053_FilePlayer musicPlayer =
       // create shield-example object!
       Adafruit_VS1053_FilePlayer(SHIELD_RESET, SHIELD_CS, SHIELD_DCS, DREQ, CARDCS);
       
-      
 File currentFile;
+
+// Create the motor shield object with the default I2C address
+Adafruit_MotorShield AFMS = Adafruit_MotorShield(); 
+      
+// Select which 'port' M1, M2, M3 or M4. In this case, M1
+Adafruit_DCMotor *myMotor = AFMS.getMotor(1);
+      
       
 void setup() {
   Serial.begin(9600);
@@ -58,10 +67,13 @@ void setup() {
     Serial.println(F("DREQ pin is not an interrupt pin"));
     
   currentFile = SD.open("/").openNextFile();
+  
+  AFMS.begin();
 }
 
 void loop() {  
   if(!musicPlayer.playingMusic) {
+    myMotor->run(RELEASE);
     currentFile.close();
     currentFile = currentFile.openNextFile();
     
@@ -77,6 +89,11 @@ void loop() {
     } else {
       Serial.println("Playing:");
       Serial.println(currentFile.name());
+      
+      delay(2000);
+     
+      myMotor->setSpeed(100);
+      myMotor->run(FORWARD);
     }
   }
   else
