@@ -89,10 +89,10 @@ void loop() {
     } else {
       Serial.println("Playing:");
       Serial.println(currentFile.name());
-      
+ 
       delay(2000);
      
-      myMotor->setSpeed(100);
+      myMotor->setSpeed(50);
       myMotor->run(FORWARD);
     }
   }
@@ -101,31 +101,3 @@ void loop() {
     delay(10);
   }
 }
-
-
-/// File listing helper
-//void printDirectory(File dir, int numTabs) {
-//   while(true) {
-//     
-//     File entry =  dir.openNextFile();
-//     if (! entry) {
-//       // no more files
-//       //Serial.println("**nomorefiles**");
-//       break;
-//     }
-//     for (uint8_t i=0; i<numTabs; i++) {
-//       Serial.print('\t');
-//     }
-//     Serial.print(entry.name());
-//     if (entry.isDirectory()) {
-//       Serial.println("/");
-//       printDirectory(entry, numTabs+1);
-//     } else {
-//       // files have sizes, directories do not
-//       Serial.print("\t\t");
-//       Serial.println(entry.size(), DEC);
-//     }
-//     entry.close();
-//   }
-//}
-
