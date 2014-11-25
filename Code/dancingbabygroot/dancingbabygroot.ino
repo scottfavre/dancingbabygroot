@@ -15,6 +15,8 @@
 // DREQ should be an Int pin, see http://arduino.cc/en/Reference/attachInterrupt
 #define DREQ 3       // VS1053 Data request, ideally an Interrupt pin
 
+#define MOTOR_SHIELD_POWER_CTRL_PIN 2
+
 Adafruit_VS1053_FilePlayer musicPlayer = 
       // create breakout-example object!
       //Adafruit_VS1053_FilePlayer(BREAKOUT_RESET, BREAKOUT_CS, BREAKOUT_DCS, DREQ, CARDCS);
@@ -68,6 +70,11 @@ void setup() {
     
   currentFile = SD.open("/").openNextFile();
   
+  pinMode(MOTOR_SHIELD_POWER_CTRL_PIN, OUTPUT);
+  digitalWrite(MOTOR_SHIELD_POWER_CTRL_PIN, HIGH);
+ 
+  delay(50);
+  
   AFMS.begin();
 }
 
@@ -92,7 +99,7 @@ void loop() {
  
       delay(2000);
      
-      myMotor->setSpeed(50);
+      myMotor->setSpeed(75);
       myMotor->run(FORWARD);
     }
   }
